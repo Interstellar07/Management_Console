@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="10dp"
+    app:cardCornerRadius="11dp"
+
+    app:cardElevation="10dp"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Sample Task"
+                android:fontFamily="@font/quicksand"
+                android:id="@+id/chkboxtxt"
+                android:textColor="#000"
+                android:onClick="chkclicked"
+               android:paddingStart="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="Priority: "
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/quicksand"
+                android:textStyle="bold"
+                android:textSize="11sp"
+                android:id="@+id/priority"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:layout_margin="5dp"
+                android:textColor="#000"
+                android:fontFamily="@font/quicksand"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:id="@+id/date"/>
+
+
+
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>
