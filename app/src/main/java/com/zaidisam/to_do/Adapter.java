@@ -55,7 +55,6 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
              holder.date.setText("Due Date: "+arrayList.get(position).date);
              holder.priority.setText("Priority: "+arrayList.get(position).priority);
              status= arrayList.get(position).status;
-             System.out.println("THISSSSSSSSSSSS "+ status);
              id = arrayList.get(position).key.toString();
            if (status== 1) {
             holder.chkbox.setChecked(true);
@@ -81,24 +80,7 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
 
                  }
              });
-      /*  tododata.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d(TAG, "Inside loop adPTER axtivity");
-                //child(arrayList.get(position).key).child("status")
-                if(snapshot.hasChild(id)) {
 
-
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

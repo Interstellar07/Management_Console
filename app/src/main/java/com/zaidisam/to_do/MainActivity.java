@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         rcv = findViewById(R.id.rcylview);
         rcv.setLayoutManager(new LinearLayoutManager(this));
-           // arrtodo.add(new ToDoModel("ABCD Task","5th Jan","Priority: Low",1));
-
            fab = findViewById(R.id.fab);
            fab.setOnClickListener(new View.OnClickListener() {
               @Override
@@ -55,32 +53,26 @@ public class MainActivity extends AppCompatActivity {
           });
         tododata= FirebaseDatabase.getInstance().getReference(android_id).child("Tasks");
 
-        
-                // tododata.child("Task1").setValue("Test");
+
                tododata.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String task,date,priority;
                 int status;
                 arrtodo.clear();
-                Log.d(TAG, "Inside Data Change Main activity ");
                 for(DataSnapshot snap: snapshot.getChildren())
                 {
-                    Log.d(TAG, "Inside loop main axtivity");
+                   // Log.d(TAG, "Inside loop main axtivity");
                     ToDoModel data = snap.getValue(ToDoModel.class);
                     task = data.getTask().toString();
                     date = data.getDate().toString();
                     priority = data.getPriority().toString();
                    Log.d(TAG, snap.getKey());
-                  //  Log.d(TAG, date);
-                  //  Log.d(TAG, priority);
                     Adapter adapter = new Adapter(MainActivity.this,arrtodo);
                     rcv.setAdapter(adapter);
 
                     arrtodo.add(new ToDoModel(task,date,priority,data.getStatus(),snap.getKey()));
 
-
-                  //  System.out.println("huehuehue"+arrtodo.get(1).priority);
 
                 }
 
@@ -93,19 +85,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-       // for(int i=1;i<=2;i++)
-          // System.out.println("huehuehue"+arrtodo.get(i).priority);
-
-
 
 
 
     }
 
     private void addnote() {
-        Log.d(TAG, "Inside: ");
-
-
         AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
         LayoutInflater inflater =LayoutInflater.from(this);
         View myView =inflater.inflate(R.layout.input_layout,null);
