@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference tododata;
    ArrayList<ToDoModel> arrtodo= new ArrayList<>();
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         String android_id = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         super.onCreate(savedInstanceState);
@@ -44,10 +45,6 @@ public class MainActivity extends AppCompatActivity {
         rcv = findViewById(R.id.rcylview);
         rcv.setLayoutManager(new LinearLayoutManager(this));
            // arrtodo.add(new ToDoModel("ABCD Task","5th Jan","Priority: Low",1));
-
-
-
-
 
            fab = findViewById(R.id.fab);
            fab.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
               }
           });
         tododata= FirebaseDatabase.getInstance().getReference(android_id).child("Tasks");
+
         
                 // tododata.child("Task1").setValue("Test");
                tododata.addValueEventListener(new ValueEventListener() {
@@ -65,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 String task,date,priority;
                 int status;
                 arrtodo.clear();
-                Adapter adapter = new Adapter(MainActivity.this,arrtodo);
-                adapter.notifyDataSetChanged();
                 Log.d(TAG, "Inside Data Change Main activity ");
                 for(DataSnapshot snap: snapshot.getChildren())
                 {
@@ -78,10 +74,12 @@ public class MainActivity extends AppCompatActivity {
                    Log.d(TAG, snap.getKey());
                   //  Log.d(TAG, date);
                   //  Log.d(TAG, priority);
-
-                    arrtodo.add(new ToDoModel(task,date,priority,1,snap.getKey()));
-
+                    Adapter adapter = new Adapter(MainActivity.this,arrtodo);
                     rcv.setAdapter(adapter);
+
+                    arrtodo.add(new ToDoModel(task,date,priority,data.getStatus(),snap.getKey()));
+
+
                   //  System.out.println("huehuehue"+arrtodo.get(1).priority);
 
                 }
@@ -93,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
        // for(int i=1;i<=2;i++)
           // System.out.println("huehuehue"+arrtodo.get(i).priority);

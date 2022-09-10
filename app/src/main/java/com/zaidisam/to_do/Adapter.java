@@ -47,43 +47,48 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
 
     @Override
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
+         int status;
         String android_id = Settings.Secure.getString(this.context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-         tododata = FirebaseDatabase.getInstance().getReference(android_id).child("Tasks");
+         tododata = FirebaseDatabase.getInstance().getReference(android_id).child("Tasks").child(arrayList.get(position).key);
              holder.task.setText(arrayList.get(position).task);
              holder.date.setText("Due Date: "+arrayList.get(position).date);
              holder.priority.setText("Priority: "+arrayList.get(position).priority);
+             status= arrayList.get(position).status;
+             System.out.println("THISSSSSSSSSSSS "+ status);
              id = arrayList.get(position).key.toString();
+           if (status== 1) {
+            holder.chkbox.setChecked(true);
+            holder.task.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.priority.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.date.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        } else
+            holder.chkbox.setChecked(false);
 
              holder.chkbox.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
+                    // System.out.println("THISSSSSSSSSSSS "+ status);
                      if(holder.chkbox.isChecked()) {
                          Toast.makeText(context,"Yayy....Task Completed",Toast.LENGTH_SHORT).show();
-                         tododata.child(arrayList.get(position).key).child("status").setValue(1);
+                         tododata.child("status").setValue(1);
                          holder.task.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                          holder.priority.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                          holder.date.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                      }
                      else
-                         tododata.child(arrayList.get(position).key).child("status").setValue(0);
+                         tododata.child("status").setValue(0);
 
                  }
              });
-        tododata.addValueEventListener(new ValueEventListener() {
+      /*  tododata.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d(TAG, "Inside loop adPTER axtivity");
                 //child(arrayList.get(position).key).child("status")
                 if(snapshot.hasChild(id)) {
 
-                    if (snapshot.child(arrayList.get(position).key).child("status").getValue(Integer.class) == 1) {
-                        holder.chkbox.setChecked(true);
-                        holder.task.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                        holder.priority.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                        holder.date.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                    } else
-                        holder.chkbox.setChecked(false);
+
                 }
 
 
@@ -93,7 +98,7 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +106,7 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
 
                 Toast.makeText(context,"Task Deleted",Toast.LENGTH_SHORT).show();
                 id = arrayList.get(position).key.toString();
-                tododata.child(arrayList.get(position).key).removeValue();
+                tododata.removeValue();
 
 
             }
