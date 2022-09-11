@@ -32,7 +32,8 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
    ArrayList<ToDoModel> arrayList;
    public String id;
 
-     Adapter(Context context , ArrayList<ToDoModel> arrayList) {
+     Adapter(Context context , ArrayList<ToDoModel> arrayList)
+     {
         this.context = context;
         this.arrayList = arrayList;
     }
@@ -47,7 +48,7 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
 
     @Override
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
-         int status;
+         int status=0;
         String android_id = Settings.Secure.getString(this.context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
          tododata = FirebaseDatabase.getInstance().getReference(android_id).child("Tasks").child(arrayList.get(position).key);
@@ -67,7 +68,10 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
              holder.chkbox.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
-                    // System.out.println("THISSSSSSSSSSSS "+ status);
+                     tododata = FirebaseDatabase.getInstance().getReference(android_id).child("Tasks").child(arrayList.get(position).key);
+                     System.out.println("oiiiiiiiiiiiiiiiiii"+holder.getAdapterPosition());
+
+                     System.out.println("THISSSSSSSSSSSS clicled");
                      if(holder.chkbox.isChecked()) {
                          Toast.makeText(context,"Yayy....Task Completed",Toast.LENGTH_SHORT).show();
                          tododata.child("status").setValue(1);
@@ -84,8 +88,7 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                tododata = FirebaseDatabase.getInstance().getReference(android_id).child("Tasks").child(arrayList.get(position).key);
                 Toast.makeText(context,"Task Deleted",Toast.LENGTH_SHORT).show();
                 id = arrayList.get(position).key.toString();
                 tododata.removeValue();

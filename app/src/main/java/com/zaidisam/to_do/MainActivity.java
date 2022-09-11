@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 arrtodo.clear();
                 for(DataSnapshot snap: snapshot.getChildren())
                 {
-                   // Log.d(TAG, "Inside loop main axtivity");
+                   Log.d(TAG, "Inside loop main axtivity");
                     ToDoModel data = snap.getValue(ToDoModel.class);
                     task = data.getTask().toString();
                     date = data.getDate().toString();
