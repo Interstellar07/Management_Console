@@ -33,45 +33,46 @@ public class MainActivity extends AppCompatActivity {
      public  RecyclerView rcv;
    public FloatingActionButton fab;
    public CheckBox chkbox;
-    private DatabaseReference tododata;
+    private DatabaseReference tododata,dtb;
    ArrayList<ToDoModel> arrtodo= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+       // dtb = FirebaseDatabase.getInstance("https://money-manager-f4cfd-default-rtdb.firebaseio.com/").getReference().ch;
         String android_id = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rcv = findViewById(R.id.rcylview);
         rcv.setLayoutManager(new LinearLayoutManager(this));
-           fab = findViewById(R.id.fab);
-           fab.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  addnote();
-              }
-          });
-        tododata= FirebaseDatabase.getInstance().getReference(android_id).child("Tasks");
 
+            tododata =FirebaseDatabase.getInstance("https://money-manager-f4cfd-default-rtdb.firebaseio.com/").getReference().child("allwaste");
 
                tododata.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String task,date,priority;
-                int status;
+                String wastetype, time, date, id, location, wastenature,status,imgurl;
+                int amountwaste;
+                int s1,s2,s3;
                 arrtodo.clear();
                 for(DataSnapshot snap: snapshot.getChildren())
                 {
-                   Log.d(TAG, "Inside loop main axtivity");
                     ToDoModel data = snap.getValue(ToDoModel.class);
-                    task = data.getTask().toString();
-                    date = data.getDate().toString();
-                    priority = data.getPriority().toString();
+                    wastetype = data.getWastetype().toString();
+                    time = data.getTime();
+                    date = data.getData();
+                    location = data.getLocation();
+                    wastenature = data.getWastenature();
+                    imgurl = data.getImgurl();
+                    amountwaste = data.getAmountwaste();
+                    s1 = data.getS1();
+                    s2= data.getS2();
+                    s3 = data.getS3();
                    Log.d(TAG, snap.getKey());
                     Adapter adapter = new Adapter(MainActivity.this,arrtodo);
                     rcv.setAdapter(adapter);
 
-                    arrtodo.add(new ToDoModel(task,date,priority,data.getStatus(),snap.getKey()));
+                    arrtodo.add(new ToDoModel(wastetype,wastenature,time,date,"",location,amountwaste,"",imgurl,s1,s2,s3));
 
 
                 }
@@ -90,47 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void addnote() {
-        AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
-        LayoutInflater inflater =LayoutInflater.from(this);
-        View myView =inflater.inflate(R.layout.input_layout,null);
-        myDialog.setView(myView);
-        final AlertDialog dialog = myDialog.create();
-        dialog.setCancelable(false);
-        final Spinner itemSpinner= myView.findViewById(R.id.itemsspinner);
-        final EditText task = myView.findViewById(R.id.task);
-        final Button cancel = myView.findViewById(R.id.cancel);
-        final Button save = myView.findViewById(R.id.save);
-        final EditText datetim = myView.findViewById(R.id.datetime);
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String tasktxt = task.getText().toString();
-                String p = itemSpinner.getSelectedItem().toString();
-                String datetime = datetim.getText().toString();
-
-                String id = tododata.push().getKey();
-                ToDoModel data = new ToDoModel(tasktxt,datetime,p,0,id);
-                tododata.child(id).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-
-                    }
-                });
-                dialog.dismiss();
-
-
-            }
-        });
-        dialog.show();
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-    }
 
 }

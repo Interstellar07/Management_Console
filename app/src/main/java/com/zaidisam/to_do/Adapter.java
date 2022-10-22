@@ -1,19 +1,25 @@
 package com.zaidisam.to_do;
 
 import static androidx.constraintlayout.widget.ConstraintLayoutStates.TAG;
+import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -48,54 +55,63 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
 
     @Override
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
-         int status=0;
-        String android_id = Settings.Secure.getString(this.context.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-         tododata = FirebaseDatabase.getInstance().getReference(android_id).child("Tasks").child(arrayList.get(position).key);
-             holder.task.setText(arrayList.get(position).task);
-             holder.date.setText("Due Date: "+arrayList.get(position).date);
-             holder.priority.setText("Priority: "+arrayList.get(position).priority);
-             status= arrayList.get(position).status;
-             id = arrayList.get(position).key.toString();
-           if (status== 1) {
-            holder.chkbox.setChecked(true);
-            holder.task.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.priority.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.date.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        } else
-            holder.chkbox.setChecked(false);
 
-             holder.chkbox.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View view) {
-                     tododata = FirebaseDatabase.getInstance().getReference(android_id).child("Tasks").child(arrayList.get(position).key);
-                     System.out.println("oiiiiiiiiiiiiiiiiii"+holder.getAdapterPosition());
-
-                     System.out.println("THISSSSSSSSSSSS clicled");
-                     if(holder.chkbox.isChecked()) {
-                         Toast.makeText(context,"Yayy....Task Completed",Toast.LENGTH_SHORT).show();
-                         tododata.child("status").setValue(1);
-                         holder.task.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                         holder.priority.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                         holder.date.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                     }
-                     else
-                         tododata.child("status").setValue(0);
-
-                 }
-             });
-
+         holder.wastetype.setText("Waste Type: "+ arrayList.get(position).wastetype);
+         holder.date.setText("Date: "+arrayList.get(position).data);
+         holder.location.setText("Location: "+arrayList.get(position).location);
+         holder.status.setText("Status: Not Disposed");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                tododata = FirebaseDatabase.getInstance().getReference(android_id).child("Tasks").child(arrayList.get(position).key);
-                Toast.makeText(context,"Task Deleted",Toast.LENGTH_SHORT).show();
-                id = arrayList.get(position).key.toString();
-                tododata.removeValue();
-
-
+            public void onClick(View v) {
+                TextView type;
+                TextView nature;
+                TextView weight;
+                TextView date;
+                TextView location;
+                ImageView image;
+                Button share;
+                AlertDialog.Builder myDialog = new AlertDialog.Builder(context);
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View myView = inflater.inflate(R.layout.expandedview,null);
+                type = myView.findViewById(R.id.type);
+                share = myView.findViewById(R.id.share);
+                share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                       // Uri uri = Uri.parse("smsto:" + );
+                        String w= "Sameer";
+                        Intent i = new Intent(Intent.ACTION_SENDTO);
+                        i.setType("text/plain").putExtra(Intent.EXTRA_TEXT,w);
+                        i.setPackage("com.whatsapp");
+                        startActivity(context,i,null);
+                    }
+                });
+                type.setText("Type: "+arrayList.get(position).wastetype);
+                nature = myView.findViewById(R.id.Nature);
+                nature.setText("Nature: "+arrayList.get(position).wastenature);
+                weight = myView.findViewById(R.id.Weight);
+                weight.setText("Weight: "+arrayList.get(position).amountwaste);
+                date = myView.findViewById(R.id.Date);
+                date.setText("Date: "+arrayList.get(position).data.toString());
+                location = myView.findViewById(R.id.Location);
+                location.setText("Location: "+arrayList.get(position).location);
+                image = myView.findViewById(R.id.wasteImage);
+                Picasso.get()
+                        .load(arrayList.get(position).imgurl)
+                        .into(image);
+                myDialog.setView(myView);
+                final AlertDialog dialog = myDialog.create();
+                myDialog.show();
+                dialog.setCancelable(false);
             }
         });
+
+        Picasso.get()
+                .load(arrayList.get(position).imgurl)
+                .into(holder.wstimg);
+        System.out.println("AAAAAH"+arrayList.get(position).imgurl);
+
+
 
 
     }
@@ -107,15 +123,16 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
 
 
     public class viewholder extends RecyclerView.ViewHolder {
-        TextView task,date,priority;
-        CheckBox chkbox;
-        int status;
+        TextView wastetype,location,date,status;
+        ImageView wstimg;
+
         public viewholder(@NonNull View itemView) {
             super(itemView);
-            task=(TextView)itemView.findViewById(R.id.chkboxtxt);
+            wstimg = itemView.findViewById(R.id.imageview);
+           wastetype = itemView.findViewById(R.id.Rtvwsttype);
             date = itemView.findViewById(R.id.date);
-            chkbox = itemView.findViewById(R.id.chkboxtxt);
-            priority = itemView.findViewById(R.id.priority);
+            location = itemView.findViewById(R.id.location);
+            status = itemView.findViewById(R.id.status);
 
         }
     }

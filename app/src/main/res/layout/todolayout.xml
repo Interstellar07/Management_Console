@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="10dp"
-    app:cardCornerRadius="11dp"
-
+    app:cardCornerRadius="4dp"
     app:cardElevation="10dp"
     android:layout_margin="10dp"
     android:orientation="vertical">
@@ -16,51 +15,77 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/linearLayout">
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Sample Task"
-                android:fontFamily="@font/quicksand"
-                android:id="@+id/chkboxtxt"
-                android:textColor="#000"
-                android:onClick="chkclicked"
-               android:paddingStart="5dp"/>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
-                android:text="Priority: "
+                android:text="Username"
                 android:layout_marginLeft="5dp"
                 android:fontFamily="@font/quicksand"
                 android:textStyle="bold"
-                android:textSize="11sp"
-                android:id="@+id/priority"/>
-
-
+                android:textSize="12sp"
+                android:id="@+id/Username"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Waste Type"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/quicksand"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:id="@+id/Rtvwsttype"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/quicksand"
+                android:textSize="12sp"
+                android:textColor="#000"
+                android:id="@+id/location"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Date"
-                android:layout_margin="5dp"
                 android:textColor="#000"
                 android:fontFamily="@font/quicksand"
                 android:textStyle="bold"
-                android:textSize="10sp"
+                android:layout_marginLeft="5dp"
+                android:textSize="12sp"
                 android:id="@+id/date"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Status:"
+                android:textColor="#000"
+                android:fontFamily="@font/quicksand"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:textSize="12sp"
+                android:id="@+id/status"/>
 
 
 
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/linearLayout"
+            android:src="@color/cardview_shadow_end_color">
 
-
+        </ImageView>
     </RelativeLayout>
 
 

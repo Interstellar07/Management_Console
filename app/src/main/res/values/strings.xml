@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">To-Do</string>
+    <string name="app_name">Management Console</string>
     <string-array name="priority">
 
         <item>Select Priority</item>
