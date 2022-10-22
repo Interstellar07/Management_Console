@@ -79,8 +79,11 @@ public class Adapter extends RecyclerView.Adapter <Adapter.viewholder>{
                     @Override
                     public void onClick(View view) {
                        // Uri uri = Uri.parse("smsto:" + );
-                        String w= "Sameer";
-                        Intent i = new Intent(Intent.ACTION_SENDTO);
+                        String w= "*GARBAGE DISPOSAL ORDER*\n\n"+
+                        "*Details:*\n" +"1. Type: "+
+                                arrayList.get(position).wastetype+"\n"+"2. Nature: "+arrayList.get(position).wastenature+"\n"+"3. Weight: "+arrayList.get(position).amountwaste+"\n"+"4. Date: "+arrayList.get(position).data.toString()+"\n"+"5. Location: "+arrayList.get(position).location;
+                        Intent i = new Intent();
+                        i.setAction(Intent.ACTION_SEND);
                         i.setType("text/plain").putExtra(Intent.EXTRA_TEXT,w);
                         i.setPackage("com.whatsapp");
                         startActivity(context,i,null);
