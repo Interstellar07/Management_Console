@@ -26,11 +26,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        new Handler().postDelayed(() -> {
+
 
             startActivity(new Intent(SplashActivity.this,MainActivity.class));
             finish();
-        }, 000);
+
 
     }
 }
