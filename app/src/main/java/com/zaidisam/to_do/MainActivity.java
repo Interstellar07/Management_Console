@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                tododata.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String wastetype, time, date, id, location, wastenature,status,imgurl;
+                String wastetype, time, date, id, location, wastenature,status,imgurl,s0;
                 int amountwaste;
                 int s1,s2,s3;
                 arrtodo.clear();
@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
                     wastetype = data.getWastetype().toString();
                     time = data.getTime();
                     date = data.getData();
+                    s0 = data.getS0();
+                    id = data.getId();
+                    //System.out.println("Main Actid"+ id);
                     location = data.getLocation();
                     wastenature = data.getWastenature();
                     imgurl = data.getImgurl();
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     Adapter adapter = new Adapter(MainActivity.this,arrtodo);
                     rcv.setAdapter(adapter);
 
-                    arrtodo.add(new ToDoModel(wastetype,wastenature,time,date,"",location,amountwaste,"",imgurl,s1,s2,s3));
+                    arrtodo.add(new ToDoModel(wastetype,wastenature,time,date,id,location,amountwaste,"",imgurl,s1,s2,s3,s0));
 
 
                 }
